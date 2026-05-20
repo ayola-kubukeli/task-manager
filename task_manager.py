@@ -21,7 +21,8 @@ def get_next_id(tasks):
 def create_task(tasks, name):
     return {
         "id": get_next_id(tasks),
-        "task": name 
+        "task": name,
+        "completed": False
     }
 
 def add_task(tasks):
@@ -43,8 +44,14 @@ def view_tasks(tasks):
         print("No tasks found")
         print()
         return
+    
     for task in tasks:
-        print(f"[{task['id']}] - {task['task']}")
+        if task["completed"]:
+            status = "✓"
+        else:
+            status = "✕"
+
+        print(f"[{task['id']}] - {task['task']} - [{status}]")
     print()
 
 def delete_task(tasks):
@@ -69,6 +76,37 @@ def delete_task(tasks):
             return
     print("Task ID not found.")
     print()
+
+def complete_task(tasks):
+    if not tasks:
+        print("No tasks to complete")
+        print()
+        return
+    
+    view_tasks(tasks)
+
+    try:
+        task_id = int(input("Enter task ID to mark completed: ").strip())
+    except ValueError:
+        print("Invalid input!")
+        print()
+        return
+
+    for task in tasks:
+        if task_id == task['id']:
+            if task["completed"]:
+                print("Task is already completed")
+                print()
+                return
+
+            task["completed"] = True
+            print("Task marked complete")
+            print()
+            return
+
+    print("Task ID not found")
+    print()
+            
 
 def edit_task(tasks):
     if not tasks:
@@ -108,7 +146,8 @@ def show_menu():
     print("2. View tasks")
     print("3. Delete task")
     print("4. Edit task")
-    print("5. Exit")
+    print("5. Mark task as completed")
+    print("6. Exit")
     print()
 
 def main():
@@ -132,8 +171,12 @@ def main():
         elif choice == "4":
             edit_task(tasks)
             save_tasks(tasks)
-
+        
         elif choice == "5":
+            complete_task(tasks)
+            save_tasks(tasks)
+
+        elif choice == "6":
             save_tasks(tasks)
             print("Goodbye!")
             break
