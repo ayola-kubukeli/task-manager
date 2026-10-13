@@ -140,6 +140,28 @@ def edit_task(tasks):
     print("Task ID not found")
     print()
 
+def search_tasks(tasks):
+
+    if not tasks:
+        print("No tasks available to search.")
+        return
+    
+    found = False
+    search = input("Enter the task to search: ").strip().lower()
+    if search == "":
+        print("Search cannot be empty!")
+        return
+
+    for task in tasks:
+        if search in task["task"].strip().lower():
+            status = "✓" if task["completed"] else "✕"
+            print(f"[{task['id']}] - {task['task']} - [{status}]")
+            found = True
+    if not found:
+        print("No matching tasks found!")
+
+
+
 def show_menu():
     print("\n---Task Manager---")
     print("1. Add task")
@@ -147,7 +169,8 @@ def show_menu():
     print("3. Delete task")
     print("4. Edit task")
     print("5. Mark task as completed")
-    print("6. Exit")
+    print("6. Search task")
+    print("7. Exit")
     print()
 
 def main():
@@ -175,8 +198,11 @@ def main():
         elif choice == "5":
             complete_task(tasks)
             save_tasks(tasks)
-
+        
         elif choice == "6":
+            search_tasks(tasks)
+
+        elif choice == "7":
             save_tasks(tasks)
             print("Goodbye!")
             break
