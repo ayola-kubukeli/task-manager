@@ -160,6 +160,24 @@ def search_tasks(tasks):
     if not found:
         print("No matching tasks found!")
 
+def filter_tasks(tasks):
+    print("\n---Filter tasks---")
+    print("1. Show all tasks")
+    print("2. Show completed tasks")
+    print("3. Show incomplete tasks")
+
+    choice = input("Choose an option: ").strip()
+
+    if choice == "1":
+        view_tasks(tasks)
+    elif choice == "2":
+        completed_tasks = [task for task in tasks if task["completed"]]
+        view_tasks(completed_tasks)
+    elif choice == "3":
+        incomplete_tasks = [task for task in tasks if not task["completed"]]
+        view_tasks(incomplete_tasks)
+    else:
+        print("Invalid choice. Please select 1, 2, or 3.")
 
 
 def show_menu():
@@ -170,7 +188,8 @@ def show_menu():
     print("4. Edit task")
     print("5. Mark task as completed")
     print("6. Search task")
-    print("7. Exit")
+    print("7. Filter task")
+    print("8. Exit")
     print()
 
 def main():
@@ -203,10 +222,12 @@ def main():
             search_tasks(tasks)
 
         elif choice == "7":
-            save_tasks(tasks)
+            filter_tasks(tasks)
+
+        elif choice == "8":
             print("Goodbye!")
             break
-        
+
         else:
             print("Invalid choice. Try again.")
             print()
