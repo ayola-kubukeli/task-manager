@@ -179,6 +179,25 @@ def filter_tasks(tasks):
     else:
         print("Invalid choice. Please select 1, 2, or 3.")
 
+def sort_tasks(tasks):
+    print("\n --- Sort Tasks ---")
+    print("1. Alphabetically (A-Z)")
+    print("2. Reverse alphabetically (Z-A)")
+    print("3. Incomplete tasks first")
+
+    choice = input("Choose an option: ").strip()
+
+    if choice == "1":
+        sorted_tasks = sorted(tasks, key=lambda task: task["task"].lower())
+        view_tasks(sorted_tasks)
+    elif choice == "2":
+        sorted_tasks = sorted(tasks, key=lambda task: task["task"].lower(), reverse=True)
+        view_tasks(sorted_tasks)
+    elif choice == "3":
+        sorted_tasks = sorted(tasks, key=lambda task: task["completed"])
+        view_tasks(sorted_tasks)
+    else:
+        print("Invalid choice. Please select 1, 2, or 3.")
 
 def show_menu():
     print("\n---Task Manager---")
@@ -189,7 +208,8 @@ def show_menu():
     print("5. Mark task as completed")
     print("6. Search task")
     print("7. Filter task")
-    print("8. Exit")
+    print("8. Sort tasks")
+    print("9. Exit")
     print()
 
 def main():
@@ -223,8 +243,11 @@ def main():
 
         elif choice == "7":
             filter_tasks(tasks)
-
+        
         elif choice == "8":
+            sort_tasks(tasks)
+            
+        elif choice == "9":
             print("Goodbye!")
             break
 
